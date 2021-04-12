@@ -13,3 +13,6 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+# for the public repo
+google-services.json
