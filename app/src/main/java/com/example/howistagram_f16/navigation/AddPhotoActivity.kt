@@ -42,7 +42,6 @@ class AddPhotoActivity : AppCompatActivity() {
         addphoto_btn_upload.setOnClickListener {
             contentUpload()
         }
-
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -68,6 +67,7 @@ class AddPhotoActivity : AppCompatActivity() {
         var storageRef = storage?.reference?.child("images")?.child(imageFileName)
 
         // Promise method
+        /*
         storageRef?.putFile(photoUri!!)?.continueWith { task: Task<UploadTask.TaskSnapshot> ->
             return@continueWith storageRef.downloadUrl
         }?.addOnSuccessListener { uri ->
@@ -93,10 +93,9 @@ class AddPhotoActivity : AppCompatActivity() {
             setResult(Activity.RESULT_OK)
 
             finish()
-        }
+        }*/
 
         // Callback method
-        /*
         storageRef?.putFile(photoUri!!)?.addOnSuccessListener {
             storageRef.downloadUrl.addOnSuccessListener { uri ->
                 var contentDTO = ContentDTO()
@@ -123,7 +122,6 @@ class AddPhotoActivity : AppCompatActivity() {
                 finish()
             }
         }
-         */
     }
 
 }
