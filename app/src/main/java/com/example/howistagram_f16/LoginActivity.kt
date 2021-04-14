@@ -39,6 +39,11 @@ class LoginActivity : AppCompatActivity() {
             googleLogin()
         }
     }
+
+    override fun onStart() {
+        super.onStart()
+        moveMainPage(auth?.currentUser)
+    }
     fun googleLogin(){
         Log.d("태그"," in 구글 로그인")
         var signInIntent = googleSignInClient?.signInIntent
@@ -106,6 +111,7 @@ class LoginActivity : AppCompatActivity() {
     fun moveMainPage(user: FirebaseUser?){
         if(user!=null){
             startActivity(Intent(this,MainActivity::class.java))
+            finish()
         }
     }
 }
