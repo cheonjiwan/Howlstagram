@@ -41,6 +41,9 @@ class DetailViewFragment : Fragment(){
             firestore?.collection("images")?.orderBy("timestamp")?.addSnapshotListener { value, error ->
                 contentDTOs.clear()
                 contentUidList.clear()
+                if(value == null)
+                    return@addSnapshotListener
+
                 for(snapshot in value!!.documents){
                     var item = snapshot.toObject(ContentDTO::class.java)
                     contentDTOs.add(item!!)
@@ -87,6 +90,15 @@ class DetailViewFragment : Fragment(){
             else{
                 // This is unlike status
                 viewholder.detailviewitem_favorite_imageview.setImageResource(R.drawable.ic_favorite_border)
+            }
+
+            viewholder.detailviewitem_profile_image.setOnClickListener {
+                var fragment = UserFragment()
+                var bundle = Bundle()
+                bundle.putString("destinationUid",contentDTOs[position].uid)
+                bundle.putString("userId",contentDTOs[position].userId)
+                fragment.arguments = bundle
+                activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.main_content,fragment)?.commit()
             }
         }
 
