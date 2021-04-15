@@ -22,6 +22,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.howistagram_f16.LoginActivity
 import com.example.howistagram_f16.MainActivity
 import com.example.howistagram_f16.R
+import com.example.howistagram_f16.navigation.Model.AlarmDTO
 import com.example.howistagram_f16.navigation.Model.ContentDTO
 import com.example.howistagram_f16.navigation.Model.FollowDTO
 import com.google.firebase.auth.FirebaseAuth
@@ -139,6 +140,7 @@ class UserFragment : Fragment(){
                 followDTO = FollowDTO()
                 followDTO!!.followerCount = 1
                 followDTO!!.followers[currentUserUid!!] = true
+                followerAlarm(uid!!)
 
                 transaction.set(tsDocFollower,followDTO!!)
                 return@runTransaction
@@ -152,10 +154,21 @@ class UserFragment : Fragment(){
                 // It add my follower when I don't follow a thid person
                 followDTO!!.followerCount = followDTO!!.followerCount + 1
                 followDTO!!.followers[currentUserUid!!] = true
+                followerAlarm(uid!!)
             }
             transaction.set(tsDocFollower, followDTO!!)
             return@runTransaction
         }
+    }
+    fun followerAlarm(destinationUid : String){
+        var alarmDTO = AlarmDTO()
+        alarmDTO.destinationUid = destinationUid
+        alarmDTO.userId = auth?.currentUser?.email
+        alarmDTO.uid = auth?.currentUser?.uid
+        alarmDTO.kind = 2
+        alarmDTO.timestamp = System.currentTimeMillis()
+
+        FirebaseFirestore.getInstance().collection("alarms").document().set(alarmDTO)
     }
 
     fun getProfileImage(){
